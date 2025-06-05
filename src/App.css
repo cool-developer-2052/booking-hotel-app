@@ -104,6 +104,7 @@
   cursor: pointer;
   margin-left: 0.5rem;
   font-size: 0.8rem;
+  user-select: none;
 }
 
 .headerSearchBtn {
