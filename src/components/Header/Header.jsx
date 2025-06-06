@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 
 import { MdLocationOn } from "react-icons/md";
-import { HiCalendar, HiMinus, HiPlus } from "react-icons/hi";
+import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
+import { useNavigate, createSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css fileo
@@ -11,6 +13,8 @@ import "react-date-range/dist/theme/default.css"; // theme css fileo
 import useOutsideClick from "../../hooks/useOutsideClick.js";
 
 function Header() {
+  const navigate = useNavigate();
+
   // === State for input field ===
   const [destination, setDestination] = useState("");
 
@@ -38,6 +42,28 @@ function Header() {
         [name]:
           operation === "inc" ? prev[name] + 1 : Math.max(0, prev[name] - 1),
       };
+    });
+  };
+
+  // === Perform search and navigate to /hotels with query params ===
+  const handleSearch = () => {
+    // Check if a destination has been selected
+    if (!destination) {
+      toast.error("Please enter a destination");
+      return;
+    }
+
+    // Create query params from user input (destination, dates, guest options)
+    const encodedParams = createSearchParams({
+      destination,
+      startDate: date[0].startDate.toISOString(),
+      endDate: date[0].endDate.toISOString(),
+      guestOptions: JSON.stringify(guestOptions),
+    });
+
+    navigate({
+      pathname: "/hotels",
+      search: encodedParams.toString(),
     });
   };
 
@@ -97,7 +123,11 @@ function Header() {
         </div>
 
         {/* Search button */}
-        <div className="headerSearchItem"></div>
+        <div className="headerSearchItem">
+          <button className="headerSearchBtn" onClick={handleSearch}>
+            <HiSearch className="headerIcon" />
+          </button>
+        </div>
       </div>
     </header>
   );
