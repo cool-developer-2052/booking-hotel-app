@@ -47,6 +47,11 @@
   color: var(--rose-500);
 }
 
+#optionsDropDown {
+  cursor: pointer;
+  user-select: none;
+}
+
 .guestOptions {
   background-color: #fff;
   box-shadow: 0 0 10px #efefef;

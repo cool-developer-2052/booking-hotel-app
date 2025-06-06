@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
 import { MdLocationOn } from "react-icons/md";
-import { HiCalendar } from "react-icons/hi";
+import { HiCalendar, HiMinus, HiPlus } from "react-icons/hi";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 
@@ -13,6 +13,7 @@ import useOutsideClick from "../../hooks/useOutsideClick.js";
 function Header() {
   // === State for input field ===
   const [destination, setDestination] = useState("");
+
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -21,6 +22,24 @@ function Header() {
     },
   ]);
   const [isDateRangeOpen, setIsDateRangeOpen] = useState(false);
+
+  const [guestOptions, setGuestOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+  const [isGuestOptionsOpen, setIsGuestOptionsOpen] = useState(false);
+
+  // === Handle increase/decrease of guest/room options ===
+  const handleGuestOptions = (name, operation) => {
+    setGuestOptions((prev) => {
+      return {
+        ...prev,
+        [name]:
+          operation === "inc" ? prev[name] + 1 : Math.max(0, prev[name] - 1),
+      };
+    });
+  };
 
   return (
     <header className="header">
@@ -62,6 +81,18 @@ function Header() {
 
         {/* Guest & Room Options */}
         <div className="headerSearchItem">
+          <div
+            id="optionsDropDown"
+            onClick={() => setIsGuestOptionsOpen((prev) => !prev)}
+          >
+            {`${guestOptions.adult} adult • ${guestOptions.children} children • ${guestOptions.room} room`}
+          </div>
+          <GuestOptionsList
+            isGuestOptionsOpen={isGuestOptionsOpen}
+            setIsGuestOptionsOpen={setIsGuestOptionsOpen}
+            guestOptions={guestOptions}
+            handleGuestOptions={handleGuestOptions}
+          />
           <span className="seperator"></span>
         </div>
 
@@ -100,5 +131,77 @@ function DateRangeDropDown({
         />
       </div>
     )
+  );
+}
+
+/*
+ * GuestOptionsList: Component for rendring guest/room selection
+ * Automatically closes when clicking outside of area
+ */
+function GuestOptionsList({
+  isGuestOptionsOpen,
+  setIsGuestOptionsOpen,
+  guestOptions,
+  handleGuestOptions,
+}) {
+  // === Guest options types: used to render the counter items dynamically ===
+  const guestOptionTypes = [
+    {
+      type: "adult",
+      minLimit: "1",
+    },
+    {
+      type: "children",
+      minLimit: "0",
+    },
+    {
+      type: "room",
+      minLimit: "1",
+    },
+  ];
+
+  const optionsRef = useRef();
+  useOutsideClick(optionsRef, "optionsDropDown", () =>
+    setIsGuestOptionsOpen(false),
+  );
+  return (
+    isGuestOptionsOpen && (
+      <div className="guestOptions" ref={optionsRef}>
+        {guestOptionTypes.map((option) => (
+          <GuestOptionItem
+            key={option.type}
+            guestOptions={guestOptions}
+            minLimit={option.minLimit}
+            type={option.type}
+            handleGuestOptions={handleGuestOptions}
+          />
+        ))}
+      </div>
+    )
+  );
+}
+
+/**
+ * Reusable counter component for guests/rooms
+ */
+function GuestOptionItem({ guestOptions, type, minLimit, handleGuestOptions }) {
+  return (
+    <div className="guestOptionItem">
+      <span className="optionText">{type}</span>
+      <button
+        className="optionCounterBtn"
+        disabled={guestOptions[type] <= minLimit}
+        onClick={() => handleGuestOptions(type, "dec")}
+      >
+        <HiMinus className="icon" />
+      </button>
+      <span className="optionCounter">{guestOptions[type]}</span>
+      <button
+        className="optionCounterBtn"
+        onClick={() => handleGuestOptions(type, "inc")}
+      >
+        <HiPlus className="icon" />
+      </button>
+    </div>
   );
 }
