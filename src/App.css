@@ -47,7 +47,7 @@
   color: var(--rose-500);
 }
 
-#optionsDropDown {
+#optionDropDown {
   cursor: pointer;
   user-select: none;
 }
