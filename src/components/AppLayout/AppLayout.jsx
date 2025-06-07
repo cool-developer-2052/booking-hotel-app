@@ -1,8 +1,9 @@
+import { Outlet } from "react-router-dom";
+
 function AppLayout() {
   return (
     <div className="applayout">
-      <h2>App Layout</h2>
-      <div className="sidebar">{/* Hotels */}</div>
+      <div className="sidebar">{<Outlet />}</div>
       {/* Map */}
     </div>
   );
