@@ -1,31 +1,11 @@
 import { useState, useEffect } from "react";
 
-import axios from "axios";
+import useFetch from "../../hooks/useFetch.js";
+
+const BASE_URL = "http://localhost:3000";
 
 function LocationList() {
-  const [hotels, setHotels] = useState([]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    async function fetchHotels() {
-      try {
-        // Fetch hotel data from API with abort support
-        const { data } = await axios.get("http://localhost:3000/hotels", {
-          signal,
-        });
-        setHotels(data);
-      } catch (error) {
-        // Handle request cancellation
-        if (error.name === "CanceledError") console.log("Canceled");
-      }
-    }
-    fetchHotels();
-
-    // Abort request on component unmount
-    return () => controller.abort();
-  }, []);
+  const { data: hotels, isLoading } = useFetch(`${BASE_URL}/hotels`);
 
   return (
     <div className="nearbyLocation">
