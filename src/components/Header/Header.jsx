@@ -47,12 +47,6 @@ function Header() {
 
   // === Perform search and navigate to /hotels with query params ===
   const handleSearch = () => {
-    // Check if a destination has been selected
-    if (!destination) {
-      toast.error("Please enter a destination");
-      return;
-    }
-
     // Create query params from user input (destination, dates, guest options)
     const encodedParams = createSearchParams({
       destination,
