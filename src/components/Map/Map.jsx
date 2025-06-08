@@ -1,9 +1,13 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
+import Loader from "../Loader/Loader.jsx";
+
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
 function Map() {
   const { hotels, isLoading } = useHotels();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="mapContainer">

@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 
+import Loader from "../Loader/Loader.jsx";
+
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
 function LocationList() {
   const { hotels, isLoading } = useHotels();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="nearbyLocation">

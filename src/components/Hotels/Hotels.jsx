@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 
+import Loader from "../Loader/Loader.jsx";
+
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
 function Hotels() {
   const { hotels, isLoading } = useHotels();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="searchList">
