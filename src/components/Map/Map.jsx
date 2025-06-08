@@ -1,11 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-import useFetch from "../../hooks/useFetch.js";
-
-const BASE_URL = "http://localhost:3000";
+import { useHotels } from "../../context/HotelsProvider.jsx";
 
 function Map() {
-  const { data: hotels, isLoading } = useFetch(`${BASE_URL}/hotels`);
+  const { hotels, isLoading } = useHotels();
 
   return (
     <div className="mapContainer">

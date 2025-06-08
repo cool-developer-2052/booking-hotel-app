@@ -5,10 +5,11 @@ import Header from "./components/Header/Header.jsx";
 import LocationList from "./components/LocationList/LocationList.jsx";
 import AppLayout from "./components/AppLayout/AppLayout.jsx";
 import Hotels from "./components/Hotels/Hotels.jsx";
+import HotelsProvider from "./context/HotelsProvider.jsx";
 
 function App() {
   return (
-    <>
+    <HotelsProvider>
       <Header />
       <Routes>
         <Route path="/" element={<LocationList />} />
@@ -16,7 +17,7 @@ function App() {
           <Route index element={<Hotels />} />
         </Route>
       </Routes>
-    </>
+    </HotelsProvider>
   );
 }
 
