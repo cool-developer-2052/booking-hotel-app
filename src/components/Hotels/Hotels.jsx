@@ -7,7 +7,7 @@ import Loader from "../Loader/Loader.jsx";
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
 function Hotels() {
-  const { hotels, isLoading } = useHotels();
+  const { hotels, isLoading, currentHotel } = useHotels();
 
   if (isLoading) return <Loader />;
 
@@ -19,7 +19,10 @@ function Hotels() {
           to={`${hotel.id}?lat=${hotel.latitude}&lng=${hotel.longitude}`}
           key={hotel.id}
         >
-          <div className="searchItem">
+          {/* Check if this is the currently selected hotel */}
+          <div
+            className={`searchItem ${hotel.id === currentHotel.id && "current-hotel"}`}
+          >
             <img src={hotel.thumbnail_url} alt={hotel.name} />
             <div className="searchItemDesc">
               <p className="location">{hotel.smart_location}</p>
