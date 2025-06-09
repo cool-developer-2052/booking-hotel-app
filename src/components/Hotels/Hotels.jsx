@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import Loader from "../Loader/Loader.jsx";
 
 import { useHotels } from "../../context/HotelsProvider.jsx";
@@ -13,15 +15,20 @@ function Hotels() {
     <div className="searchList">
       <h2>Search Result ({hotels.length})</h2>
       {hotels.map((hotel) => (
-        <div className="searchItem" key={hotel.id}>
-          <img src={hotel.thumbnail_url} alt={hotel.name} />
-          <div className="searchItemDesc">
-            <p className="location">{hotel.smart_location}</p>
-            <p className="name">{hotel.name}</p>
-            €&nbsp;{hotel.price}&nbsp;
-            <span>night</span>
+        <Link
+          to={`${hotel.id}?lat=${hotel.latitude}&lng=${hotel.longitude}`}
+          key={hotel.id}
+        >
+          <div className="searchItem">
+            <img src={hotel.thumbnail_url} alt={hotel.name} />
+            <div className="searchItemDesc">
+              <p className="location">{hotel.smart_location}</p>
+              <p className="name">{hotel.name}</p>
+              €&nbsp;{hotel.price}&nbsp;
+              <span>night</span>
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
