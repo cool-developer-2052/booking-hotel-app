@@ -1,8 +1,11 @@
+import { Outlet } from "react-router-dom";
+
 function BookmarksLayout() {
   return (
     <div className="applayout">
-      <h2>Bookmarks Layout</h2>
-      <div className="sidebar">{/* Bookmarks */}</div>
+      <div className="sidebar">
+        <Outlet />
+      </div>
       {/* Map */}
     </div>
   );
