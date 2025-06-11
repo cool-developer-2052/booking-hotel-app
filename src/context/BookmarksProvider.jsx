@@ -1,4 +1,6 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
+
+import axios from "axios";
 
 import useFetch from "../hooks/useFetch";
 
@@ -7,10 +9,34 @@ const BookmarksContext = createContext();
 const BASE_URL = "http://localhost:3000";
 
 function BookmarksProvider({ children }) {
+  const [currentBookmark, setCurrentBookmark] = useState({});
+  const [isLoadingCurrentBookmark, setIsLoadingCurrentBookmark] =
+    useState(false);
+
   const { data: bookmarks, isLoading } = useFetch(`${BASE_URL}/bookmarks`);
 
+  async function getBookmark(id) {
+    setIsLoadingCurrentBookmark(true);
+    try {
+      const { data } = await axios.get(`${BASE_URL}/bookmarks/${id}`);
+      setCurrentBookmark(data);
+    } catch (error) {
+      toast.error(error?.message);
+    } finally {
+      setIsLoadingCurrentBookmark(false);
+    }
+  }
+
   return (
-    <BookmarksContext.Provider value={{ bookmarks, isLoading }}>
+    <BookmarksContext.Provider
+      value={{
+        bookmarks,
+        isLoading,
+        getBookmark,
+        currentBookmark,
+        isLoadingCurrentBookmark,
+      }}
+    >
       {children}
     </BookmarksContext.Provider>
   );
