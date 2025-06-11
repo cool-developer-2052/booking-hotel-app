@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 function BookmarksLayout() {
   return (
-    <div className="applayout">
+    <div className="appLayout">
       <div className="sidebar">
         <Outlet />
       </div>
