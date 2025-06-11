@@ -7,8 +7,8 @@ import Loader from "../Loader/Loader.jsx";
 
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
-function Map() {
-  const { hotels, isLoading } = useHotels();
+function Map({ markedLocations }) {
+  // const { hotels, isLoading } = useHotels();
 
   const [mapCenter, setMapCenter] = useState([51.505, -0.09]);
 
@@ -21,8 +21,6 @@ function Map() {
   useEffect(() => {
     if (lat && lng) setMapCenter([lat, lng]);
   }, [lat, lng]);
-
-  if (isLoading) return <Loader />;
 
   return (
     <div className="mapContainer">
@@ -37,8 +35,11 @@ function Map() {
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
         <ChangeCenter postion={mapCenter} />
-        {hotels.map((hotel) => (
-          <Marker position={[hotel.latitude, hotel.longitude]} key={hotel.id}>
+        {markedLocations.map((location) => (
+          <Marker
+            position={[location.latitude, location.longitude]}
+            key={location.id}
+          >
             <Popup>
               A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
