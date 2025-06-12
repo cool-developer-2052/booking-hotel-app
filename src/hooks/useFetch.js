@@ -20,7 +20,7 @@ function useFetch(url, query = "") {
         setData(data);
       } catch (error) {
         if (error.name === "CanceledError") {
-          console.log("Cancled");
+          console.log("Canceled");
         } else {
           toast.error(error?.massage);
           throw new Error(error);

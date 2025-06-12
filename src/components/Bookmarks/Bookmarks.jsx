@@ -6,7 +6,13 @@ import Loader from "../Loader/Loader.jsx";
 import { useBookmarks } from "../../context/BookmarksProvider.jsx";
 
 function Bookmarks() {
-  const { bookmarks, isLoading, currentBookmark } = useBookmarks();
+  const { bookmarks, isLoading, currentBookmark, deleteBookmark } =
+    useBookmarks();
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    await deleteBookmark(id);
+  };
 
   if (isLoading) return <Loader />;
 
@@ -28,6 +34,9 @@ function Bookmarks() {
                   &nbsp; <strong>{bookmark.cityName}</strong> &nbsp;
                   <span>{bookmark.country}</span>
                 </div>
+                <button onClick={(e) => handleDelete(e, bookmark.id)}>
+                  <HiTrash className="trash" />
+                </button>
               </div>
             </Link>
           );
