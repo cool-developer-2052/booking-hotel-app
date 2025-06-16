@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import { useSearchParams } from "react-router-dom";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
+import { useNavigate } from "react-router-dom";
 
-import Loader from "../Loader/Loader.jsx";
-
-import { useHotels } from "../../context/HotelsProvider.jsx";
+import useUrlLocation from "../../hooks/useUrlLocation.js";
 
 function Map({ markedLocations }) {
-  // const { hotels, isLoading } = useHotels();
-
   const [mapCenter, setMapCenter] = useState([51.505, -0.09]);
 
   // === Get latitude and longitude from url ===
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
+  const { lat, lng } = useUrlLocation();
 
   // === Update map center only if lat and lng exist ===
   useEffect(() => {
@@ -34,6 +35,7 @@ function Map({ markedLocations }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
+        <DetectClick />
         <ChangeCenter postion={mapCenter} />
         {markedLocations.map((location) => (
           <Marker
@@ -58,5 +60,19 @@ export default Map;
 function ChangeCenter({ postion }) {
   const map = useMap();
   map.setView(postion);
+  return null;
+}
+
+/*
+ * DetectClick: When user clicks on the map, go to the "Add Bookmark" page
+ * and pass the clicked location (lat, lng) in the URL.
+ */
+function DetectClick() {
+  const navigate = useNavigate();
+  useMapEvents({
+    click: (e) => {
+      navigate(`/bookmarks/add?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+    },
+  });
   return null;
 }

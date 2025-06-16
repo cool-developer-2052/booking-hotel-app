@@ -15,6 +15,8 @@ function Bookmarks() {
   };
 
   if (isLoading) return <Loader />;
+  if (!bookmarks.length)
+    return <strong>there is no bookmarked location</strong>;
 
   return (
     <div>

@@ -1,15 +1,7 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useReducer,
-  useEffect,
-} from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 
 import axios from "axios";
 import toast from "react-hot-toast";
-
-import useFetch from "../hooks/useFetch";
 
 const BookmarksContext = createContext();
 
@@ -48,6 +40,13 @@ function bookmarksReducer(state, { type, payload }) {
         bookmarks: state.bookmarks.filter(
           (bookmark) => bookmark.id !== payload,
         ),
+      };
+    case "bookmark/created":
+      return {
+        ...state,
+        isLoading: false,
+        bookmarks: [...state.bookmarks, payload],
+        currentBookmark: payload,
       };
     case "rejected":
       return {
@@ -124,6 +123,20 @@ function BookmarksProvider({ children }) {
     }
   }
 
+  async function createBookmark(newBookmark) {
+    dispatch({ type: "loading" });
+    try {
+      const { data } = await axios.post(BASE_URL, newBookmark);
+      dispatch({ type: "bookmark/created", payload: data });
+    } catch (error) {
+      toast.error(error?.message);
+      dispatch({
+        type: "rejected",
+        payload: "an Errror occurred in creating bookmark",
+      });
+    }
+  }
+
   return (
     <BookmarksContext.Provider
       value={{
@@ -132,6 +145,7 @@ function BookmarksProvider({ children }) {
         getBookmark,
         currentBookmark,
         deleteBookmark,
+        createBookmark,
       }}
     >
       {children}
