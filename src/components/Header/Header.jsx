@@ -4,7 +4,7 @@ import { MdLocationOn } from "react-icons/md";
 import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate, createSearchParams, NavLink } from "react-router-dom";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css fileo
@@ -62,6 +62,7 @@ function Header() {
 
   return (
     <header className="header">
+      <NavLink to="/bookmarks">Bookmarks</NavLink>
       <div className="headerSearch">
         {/* Destination Input */}
         <div className="headerSearchItem">
