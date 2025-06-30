@@ -5,7 +5,6 @@ import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css fileo

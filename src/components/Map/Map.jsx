@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import useUrlLocation from "../../hooks/useUrlLocation.js";
+import useGeoLocation from "../../hooks/useGeoLocation.js";
 
 function Map({ markedLocations }) {
   const [mapCenter, setMapCenter] = useState([51.505, -0.09]);
@@ -18,10 +19,22 @@ function Map({ markedLocations }) {
   // === Get latitude and longitude from url ===
   const { lat, lng } = useUrlLocation();
 
+  const {
+    isLoading: isLoadingGeoPosition,
+    position: geoPosition,
+    getPosition,
+  } = useGeoLocation();
+
   // === Update map center only if lat and lng exist ===
   useEffect(() => {
     if (lat && lng) setMapCenter([lat, lng]);
   }, [lat, lng]);
+
+  useEffect(() => {
+    if (geoPosition?.lat && geoPosition?.lng) {
+      setMapCenter([geoPosition.lat, geoPosition.lng]);
+    }
+  }, [geoPosition]);
 
   return (
     <div className="mapContainer">
@@ -31,6 +44,9 @@ function Map({ markedLocations }) {
         zoom={13}
         scrollWheelZoom={true}
       >
+        <button onClick={getPosition} className="getLocation">
+          {isLoadingGeoPosition ? "Loading ..." : " Use Your Location"}
+        </button>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"

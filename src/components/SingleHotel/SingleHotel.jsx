@@ -6,8 +6,6 @@ import { HiArrowSmLeft } from "react-icons/hi";
 import Loader from "../Loader/Loader.jsx";
 import { useHotels } from "../../context/HotelsProvider.jsx";
 
-const BASE_URL = "http://localhost:3000/hotels";
-
 function SingleHotel() {
   // === Get hotel ID from url ===
   const { id } = useParams();

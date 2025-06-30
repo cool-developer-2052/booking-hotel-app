@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 

@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import Loader from "../Loader/Loader.jsx";
 
 import { useHotels } from "../../context/HotelsProvider.jsx";

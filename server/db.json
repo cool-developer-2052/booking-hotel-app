@@ -1325,15 +1325,6 @@
   ],
   "bookmarks": [
     {
-      "id": 1749774454471,
-      "cityName": "Bushehr",
-      "countryName": "Iran (Islamic Republic of)",
-      "countryCode": "IR",
-      "latitude": "28.941312441153038",
-      "longitude": "50.82550048828126",
-      "host_location": "Bushehr Iran (Islamic Republic of)"
-    },
-    {
       "id": 1749827384429,
       "cityName": "Khaneh Zenyan",
       "countryName": "Iran (Islamic Republic of)",
@@ -1350,6 +1341,15 @@
       "latitude": "32.705844506510616",
       "longitude": "51.67968750000001",
       "host_location": "Isfahan Iran (Islamic Republic of)"
+    },
+    {
+      "id": 1750089185996,
+      "cityName": "Belvis de Monroy",
+      "countryName": "Spain",
+      "countryCode": "ES",
+      "latitude": "39.787433886224406",
+      "longitude": "-5.625",
+      "host_location": "Belvis de Monroy Spain"
     }
   ]
 }
